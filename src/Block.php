@@ -15,6 +15,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+use function Enjoys\FileSystem\copyDirectoryWithFilesRecursive;
 use function Enjoys\FileSystem\removeDirectoryRecursive;
 
 final class Block extends AbstractBlock
@@ -65,7 +66,18 @@ final class Block extends AbstractBlock
 
     public function remove()
     {
-        removeDirectoryRecursive($_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias(), true);
+        $directory = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
+        if(is_dir($directory)){
+            removeDirectoryRecursive($directory, true);
+        }
+
+    }
+
+    public function clone(?Entity $cloned = null)
+    {
+        $directory_src = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
+        $directory_dest = $_ENV['PUBLIC_DIR'].'/revslider/'.$cloned->getAlias();
+        copyDirectoryWithFilesRecursive($directory_src, $directory_dest);
     }
 
 
