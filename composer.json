@@ -1,18 +1,18 @@
 {
-  "name": "enjoyscms/{module_name}",
-  "description": "Module {MODULE_NAME} for EnjoysCMS",
+  "name": "enjoyscms/revslider5",
+  "description": "Module RevSlider5 for EnjoysCMS",
   "type": "enjoyscms-module",
   "require": {
     "oomphinc/composer-installers-extender": "^2.0"
   },
   "autoload": {
     "psr-4": {
-      "Enjoyscms\\Module\\{MODULE_NAME}\\": "src/"
+      "Enjoyscms\\Module\\RevSlider5\\": "src/"
     }
   },
   "extra": {
-    "module-name": "{MODULE_NAME}",
-    "use-migrations": true,
+    "module-name": "RevSlider5",
+    "use-migrations": false,
     "admin-links": {}
   }
 }
