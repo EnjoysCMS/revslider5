@@ -3,16 +3,19 @@
   "description": "Module RevSlider5 for EnjoysCMS",
   "type": "enjoyscms-module",
   "require": {
-    "oomphinc/composer-installers-extender": "^2.0"
+    "oomphinc/composer-installers-extender": "^2.0",
+    "ext-zip": "*"
   },
   "autoload": {
     "psr-4": {
-      "Enjoyscms\\Module\\RevSlider5\\": "src/"
+      "EnjoysCMS\\Module\\RevSlider5\\": "src/"
     }
   },
   "extra": {
     "module-name": "RevSlider5",
     "use-migrations": false,
-    "admin-links": {}
+    "admin-links": {
+      "revslider5/import": "Импорт слайдеров"
+    }
   }
 }
