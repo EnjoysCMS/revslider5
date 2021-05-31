@@ -64,7 +64,7 @@ final class Block extends AbstractBlock
         );
     }
 
-    public function remove()
+    public function preRemove()
     {
         $directory = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
         if(is_dir($directory)){
@@ -73,11 +73,25 @@ final class Block extends AbstractBlock
 
     }
 
-    public function clone(?Entity $cloned = null)
+    /**
+     * @throws \Exception
+     */
+    public function postClone(?Entity $cloned = null)
     {
         $directory_src = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
         $directory_dest = $_ENV['PUBLIC_DIR'].'/revslider/'.$cloned->getAlias();
         copyDirectoryWithFilesRecursive($directory_src, $directory_dest);
+    }
+
+    public function postEdit(?Entity $oldBlock = null)
+    {
+        $directory_from = $_ENV['PUBLIC_DIR'].'/revslider/'.$oldBlock->getAlias();
+        $directory_to = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
+
+        if(file_exists($directory_from)){
+            rename($directory_from, $directory_to);
+        }
+
     }
 
 
