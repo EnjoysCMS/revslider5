@@ -13,7 +13,7 @@ use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Http\ServerRequestInterface;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Components\Helpers\Redirect;
-use EnjoysCMS\Core\Entities\Blocks;
+use EnjoysCMS\Core\Entities\Block;
 use HttpSoft\Message\UploadedFile;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -76,7 +76,7 @@ final class Import implements ModelInterface
 
     private function addBlock($sliderName, $sliderDir)
     {
-        $block = new Blocks();
+        $block = new Block();
         $block->setAlias($sliderDir);
         $block->setName(sprintf('[revslider] %s', $sliderName));
         $block->setRemovable(true);

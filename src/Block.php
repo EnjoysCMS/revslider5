@@ -8,7 +8,7 @@ namespace EnjoysCMS\Module\RevSlider5;
 
 use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 use EnjoysCMS\Core\Components\Helpers\Assets;
-use EnjoysCMS\Core\Entities\Blocks as Entity;
+use EnjoysCMS\Core\Entities\Block as Entity;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
