@@ -13,7 +13,6 @@
   },
   "extra": {
     "module-name": "RevSlider5",
-    "use-migrations": false,
     "admin-links": {
       "revslider5/import": "Импорт слайдеров"
     }
