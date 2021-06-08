@@ -5,12 +5,14 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Module\RevSlider5;
 
-
 use App\Module\Admin\BaseController;
-use EnjoysCMS\Module\Catalog\Models\Admin\Category\Index;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class Controller
+ * @package EnjoysCMS\Module\RevSlider5
+ */
 final class Controller extends BaseController
 {
     #[Route(

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Module\RevSlider5;
-
 
 use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 use EnjoysCMS\Core\Components\Helpers\Assets;
@@ -18,6 +16,10 @@ use Twig\Error\SyntaxError;
 use function Enjoys\FileSystem\copyDirectoryWithFilesRecursive;
 use function Enjoys\FileSystem\removeDirectoryRecursive;
 
+/**
+ * Class Block
+ * @package EnjoysCMS\Module\RevSlider5
+ */
 final class Block extends AbstractBlock
 {
 

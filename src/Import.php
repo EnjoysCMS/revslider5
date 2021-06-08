@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace EnjoysCMS\Module\RevSlider5;
-
 
 use App\Module\Admin\Core\ModelInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Http\ServerRequestInterface;
@@ -15,9 +15,14 @@ use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Components\Helpers\Redirect;
 use EnjoysCMS\Core\Entities\Block;
 use HttpSoft\Message\UploadedFile;
+use JetBrains\PhpStorm\ArrayShape;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Class Import
+ * @package EnjoysCMS\Module\RevSlider5
+ */
 final class Import implements ModelInterface
 {
 
@@ -29,6 +34,12 @@ final class Import implements ModelInterface
     ) {
     }
 
+    /**
+     * @throws \Exception
+     */
+    #[ArrayShape(
+        ['form' => "string"]
+    )]
     public function getContext(): array
     {
         $form = $this->getForm();
@@ -74,6 +85,10 @@ final class Import implements ModelInterface
         die();
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     private function addBlock($sliderName, $sliderDir)
     {
         $block = new Block();
