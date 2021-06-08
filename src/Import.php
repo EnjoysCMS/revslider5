@@ -13,7 +13,7 @@ use Enjoys\Forms\Renderer\RendererInterface;
 use Enjoys\Http\ServerRequestInterface;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Components\Helpers\Redirect;
-use EnjoysCMS\Core\Entities\Block;
+use EnjoysCMS\Core\Entities\Block as Entity;
 use HttpSoft\Message\UploadedFile;
 use JetBrains\PhpStorm\ArrayShape;
 use Ramsey\Uuid\Uuid;
@@ -91,7 +91,7 @@ final class Import implements ModelInterface
      */
     private function addBlock($sliderName, $sliderDir)
     {
-        $block = new Block();
+        $block = new Entity();
         $block->setAlias($sliderDir);
         $block->setName(sprintf('[revslider] %s', $sliderName));
         $block->setRemovable(true);
