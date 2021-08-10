@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Module\RevSlider5;
 
+use Enjoys\AssetsCollector\Asset;
 use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 use EnjoysCMS\Core\Components\Helpers\Assets;
 use EnjoysCMS\Core\Entities\Block as Entity;
@@ -49,10 +50,10 @@ final class Block extends AbstractBlock
         $url = '//'.$_SERVER['HTTP_HOST'].'/revslider/'.$this->block->getAlias();
         Assets::js(
             [
-                $url . "/js/jquery.themepunch.tools.min.js",
-                $url . "/js/jquery.themepunch.revolution.min.js",
-                $url . "/js/jquery.revslider.embed.js",
-                $url . "/js/jquery.revslider-".$this->getOption('name').".js"
+                [$url . "/js/jquery.themepunch.tools.min.js", Asset::MINIFY => false, Asset::REPLACE_RELATIVE_URLS => false],
+                [$url . "/js/jquery.themepunch.revolution.min.js", Asset::MINIFY => false, Asset::REPLACE_RELATIVE_URLS => false],
+                [$url . "/js/jquery.revslider.embed.js", Asset::MINIFY => false, Asset::REPLACE_RELATIVE_URLS => false],
+                [$url . "/js/jquery.revslider-".$this->getOption('name').".js", Asset::MINIFY => false, Asset::REPLACE_RELATIVE_URLS => false],
             ]
         );
 
