@@ -23,11 +23,11 @@ final class Controller extends BaseController
         ]
     )
     ]
-    public function upload(ContainerInterface $container): string
+    public function upload(): string
     {
         return $this->view(
             __DIR__ . '/../template/import.twig',
-            $this->getContext($container->get(Import::class))
+            $this->getContext($this->getContainer()->get(Import::class))
         );
     }
 

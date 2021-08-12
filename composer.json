@@ -22,6 +22,6 @@
   },
   "require-dev": {
     "enjoyscms/core": "^3.0",
-    "enjoyscms/admin": "^1.2"
+    "enjoyscms/admin": "^2.0"
   }
 }
