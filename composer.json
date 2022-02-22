@@ -4,9 +4,10 @@
   "license": "MIT",
   "type": "enjoyscms-module",
   "require": {
-    "php": "^8.0",
+    "php": ">=8.0",
     "ext-zip": "*",
-    "oomphinc/composer-installers-extender": "^2.0",
+    "enjoyscms/core": "^4.0",
+    "enjoyscms/admin": "^4.0",
     "enjoys/assets-collector": "^2.0"
   },
   "autoload": {
@@ -21,7 +22,11 @@
     }
   },
   "require-dev": {
-    "enjoyscms/core": "^3.0",
-    "enjoyscms/admin": "^2.0"
+    "enjoys/dotenv": "^2.0",
+    "symfony/cache": "^6.0",
+    "codeception/codeception": "^4.1",
+    "codeception/module-phpbrowser": "^1.0.0",
+    "codeception/module-asserts": "^1.0.0",
+    "vimeo/psalm": "^4.20"
   }
 }
