@@ -24,13 +24,11 @@ use function Enjoys\FileSystem\removeDirectoryRecursive;
 final class Block extends AbstractBlock
 {
 
-    private Environment $twig;
     private string $templatePath;
 
-    public function __construct(ContainerInterface $container, Entity $block)
+    public function __construct(private Environment $twig, Entity $block)
     {
-        parent::__construct($container, $block);
-        $this->twig = $this->container->get(Environment::class);
+        parent::__construct($block);
         $this->templatePath = $this->getOption('template');
     }
 

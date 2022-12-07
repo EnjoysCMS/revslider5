@@ -4,31 +4,26 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Module\RevSlider5;
 
-use App\Module\Admin\Core\ModelInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Enjoys\Forms\Form;
-use Enjoys\Forms\Renderer\RendererInterface;
-use Enjoys\Http\ServerRequestInterface;
+use Enjoys\Forms\Interfaces\RendererInterface;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Components\Helpers\Redirect;
 use EnjoysCMS\Core\Entities\Block as Entity;
+use EnjoysCMS\Module\Admin\Core\ModelInterface;
 use HttpSoft\Message\UploadedFile;
-use JetBrains\PhpStorm\ArrayShape;
+use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Class Import
- * @package EnjoysCMS\Module\RevSlider5
- */
 final class Import implements ModelInterface
 {
 
     public function __construct(
         private RendererInterface $renderer,
-        private ServerRequestInterface $serverRequest,
+        private ServerRequestInterface $request,
         private EntityManager $entityManager,
         private UrlGeneratorInterface $urlGenerator
     ) {
@@ -37,9 +32,6 @@ final class Import implements ModelInterface
     /**
      * @throws \Exception
      */
-    #[ArrayShape(
-        ['form' => "string"]
-    )]
     public function getContext(): array
     {
         $form = $this->getForm();
@@ -50,7 +42,7 @@ final class Import implements ModelInterface
 
         $this->renderer->setForm($form);
         return [
-            'form' => $this->renderer->render()
+            'form' => $this->renderer->output()
         ];
     }
 
@@ -62,12 +54,17 @@ final class Import implements ModelInterface
         return $form;
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     * @throws \Exception
+     */
     private function doAction()
     {
         $tmp_file = $_ENV['TEMP_DIR'] . '/' . uniqid();
         $sliderDir = Uuid::uuid4()->__toString();
         /** @var UploadedFile $file */
-        $file = $this->serverRequest->files('slider');
+        $file = $this->request->getUploadedFiles()['slider'];
         $file->moveTo($tmp_file);
 
         $sliderName = pathinfo($file->getClientFilename(), PATHINFO_FILENAME);
