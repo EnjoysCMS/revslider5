@@ -8,7 +8,6 @@ use Enjoys\AssetsCollector\Asset;
 use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 use EnjoysCMS\Core\Components\Helpers\Assets;
 use EnjoysCMS\Core\Entities\Block as Entity;
-use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -17,10 +16,7 @@ use Twig\Error\SyntaxError;
 use function Enjoys\FileSystem\copyDirectoryWithFilesRecursive;
 use function Enjoys\FileSystem\removeDirectoryRecursive;
 
-/**
- * Class Block
- * @package EnjoysCMS\Module\RevSlider5
- */
+
 final class Block extends AbstractBlock
 {
 

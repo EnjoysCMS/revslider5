@@ -5,14 +5,9 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Module\RevSlider5;
 
-use EnjoysCMS\Core\BaseController;
 use EnjoysCMS\Module\Admin\AdminBaseController;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 
 final class Controller extends AdminBaseController
