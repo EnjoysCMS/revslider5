@@ -75,14 +75,18 @@ final class Import implements ModelInterface
         $file = $this->request->getUploadedFiles()['slider'];
         $file->moveTo($tmp_file);
 
-        $sliderName = pathinfo($file->getClientFilename(), PATHINFO_FILENAME);
+        $uploadFilename = pathinfo($file->getClientFilename(), PATHINFO_FILENAME);
+        $extractDirectory = $_ENV['PUBLIC_DIR'] . '/revslider/' . $sliderDir;
 
         $zip = new \ZipArchive();
 
         if ($zip->open($tmp_file) === true) {
-            $zip->extractTo($_ENV['PUBLIC_DIR'] . '/revslider/' . $sliderDir);
+            $zip->extractTo($extractDirectory);
             $zip->close();
             unlink($tmp_file);
+
+            $sliderName = $this->getSliderName($extractDirectory) ?? $uploadFilename;
+
             $this->addBlock($sliderName, $sliderDir);
         } else {
             throw new \Exception('Error open file');
@@ -127,5 +131,11 @@ final class Import implements ModelInterface
         );
 
         Redirect::http($this->urlGenerator->generate('admin/blocks'));
+    }
+
+    private function getSliderName(string $extractDirectory): ?string
+    {
+        $searchData = glob($extractDirectory.'/js/jquery.revslider-*.js');
+        return null;
     }
 }
