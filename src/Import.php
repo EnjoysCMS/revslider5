@@ -135,7 +135,10 @@ final class Import implements ModelInterface
 
     private function getSliderName(string $extractDirectory): ?string
     {
-        $searchData = glob($extractDirectory.'/js/jquery.revslider-*.js');
-        return null;
+        $scriptPath = glob($extractDirectory . '/js/jquery.revslider-*.js')[0] ?? null;
+        if ($scriptPath === null) {
+            return null;
+        }
+        return str_replace('jquery.revslider-', '', pathinfo($scriptPath, PATHINFO_FILENAME));
     }
 }
