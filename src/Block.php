@@ -8,6 +8,8 @@ use Enjoys\AssetsCollector\Asset;
 use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
 use EnjoysCMS\Core\Components\Helpers\Assets;
 use EnjoysCMS\Core\Entities\Block as Entity;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -34,9 +36,11 @@ final class Block extends AbstractBlock
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function view(): string
     {
@@ -61,7 +65,7 @@ final class Block extends AbstractBlock
         );
     }
 
-    public function preRemove()
+    public function preRemove(): void
     {
         $directory = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
         if(is_dir($directory)){
@@ -73,14 +77,14 @@ final class Block extends AbstractBlock
     /**
      * @throws \Exception
      */
-    public function postClone(?Entity $cloned = null)
+    public function postClone(?Entity $cloned = null): void
     {
         $directory_src = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();
         $directory_dest = $_ENV['PUBLIC_DIR'].'/revslider/'.$cloned->getAlias();
         copyDirectoryWithFilesRecursive($directory_src, $directory_dest);
     }
 
-    public function postEdit(?Entity $oldBlock = null)
+    public function postEdit(?Entity $oldBlock = null): void
     {
         $directory_from = $_ENV['PUBLIC_DIR'].'/revslider/'.$oldBlock->getAlias();
         $directory_to = $_ENV['PUBLIC_DIR'].'/revslider/'.$this->block->getAlias();

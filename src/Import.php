@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EnjoysCMS\Module\RevSlider5;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\RendererInterface;
 use EnjoysCMS\Core\Components\Helpers\ACL;
@@ -14,6 +14,8 @@ use EnjoysCMS\Core\Components\Helpers\Redirect;
 use EnjoysCMS\Core\Entities\Block as Entity;
 use EnjoysCMS\Module\Admin\Core\ModelInterface;
 use HttpSoft\Message\UploadedFile;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,7 +32,10 @@ final class Import implements ModelInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function getContext(): array
     {
@@ -54,12 +59,15 @@ final class Import implements ModelInterface
         return $form;
     }
 
+
     /**
      * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
      * @throws ORMException
+     * @throws ContainerExceptionInterface
      * @throws \Exception
      */
-    private function doAction()
+    private function doAction(): void
     {
         $tmp_file = $_ENV['TEMP_DIR'] . '/' . uniqid();
         $sliderDir = Uuid::uuid4()->__toString();
@@ -82,11 +90,14 @@ final class Import implements ModelInterface
         die();
     }
 
+
     /**
      * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
      * @throws ORMException
+     * @throws ContainerExceptionInterface
      */
-    private function addBlock($sliderName, $sliderDir)
+    private function addBlock($sliderName, $sliderDir): void
     {
         $block = new Entity();
         $block->setAlias($sliderDir);
