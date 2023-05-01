@@ -96,7 +96,7 @@ final class Import implements ModelInterface
         $block->setOptions(
             [
                 'template' => [
-                    'value' => '@project/modules/revslider5/template/block.twig',
+                    'value' => '../modules/revslider5/template/block.twig',
                     'name' => 'Путь до template',
                     'description' => 'Обязательно'
                 ],
