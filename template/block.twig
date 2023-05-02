@@ -1,16 +1,16 @@
 <div
         class="revslider"
-        data-alias="{{ blockOptions.name }}"
+        data-alias="{{ slider.alias }}"
 ></div>
 
 
 <script type="text/javascript">
     jQuery(function () {
         jQuery().embedRevslider({
-            "assetsLocation": "{{ sliderUrl }}/assets/",
-            "fontsLocation": "{{ sliderUrl }}/fonts/",
-            "cssLocation": "{{ sliderUrl }}/css/",
-            "jsLocation": "{{ sliderUrl }}/js/"
+            "assetsLocation": "{{ slider.url }}/assets/",
+            "fontsLocation": "{{ slider.url }}/fonts/",
+            "cssLocation": "{{ slider.url }}/css/",
+            "jsLocation": "{{ slider.url }}/js/"
         });
     });
 </script>

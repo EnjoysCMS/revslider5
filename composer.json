@@ -6,9 +6,9 @@
   "require": {
     "php": "^8.0",
     "ext-zip": "*",
-    "enjoyscms/core": "^4.5",
-    "enjoyscms/admin": "^4.3",
-    "enjoys/assets-collector": "^2.2",
+    "enjoyscms/core": "^4.10",
+    "enjoyscms/admin": "^4.6",
+    "enjoys/assets-collector": "^2.4.3",
     "ramsey/uuid": "^4.6"
   },
   "autoload": {
