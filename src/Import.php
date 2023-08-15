@@ -7,21 +7,16 @@ namespace EnjoysCMS\Module\RevSlider5;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Enjoys\Forms\Form;
 use Enjoys\Forms\Interfaces\RendererInterface;
 use EnjoysCMS\Core\Components\Helpers\ACL;
 use EnjoysCMS\Core\Entities\Block as Entity;
 use EnjoysCMS\Core\Interfaces\RedirectInterface;
 use EnjoysCMS\Module\Admin\Core\ModelInterface;
-use Exception;
-use HttpSoft\Message\UploadedFile;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Ramsey\Uuid\Uuid;
-use ZipArchive;
 
-final class Import implements ModelInterface
+final class Import
 {
 
     public function __construct(
@@ -54,47 +49,7 @@ final class Import implements ModelInterface
         ];
     }
 
-    private function getForm(): Form
-    {
-        $form = new Form();
-        $form->file('slider')->setMaxFileSize(
-            $this->config->get('max_file_size', iniSize2bytes(ini_get('upload_max_filesize')))
-        );
-        $form->submit('submit1');
-        return $form;
-    }
 
-
-    /**
-     * @throws OptimisticLockException
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws ContainerExceptionInterface
-     * @throws Exception
-     */
-    private function doAction(): void
-    {
-
-        $blockAlias = Uuid::uuid4()->__toString();
-        /** @var UploadedFile $file */
-        $file = $this->request->getUploadedFiles()['slider'];
-        $tmp_file = $_ENV['TEMP_DIR'] . '/' . uniqid();
-        $file->moveTo($tmp_file);
-
-        $sliderDirectory = $_ENV['PUBLIC_DIR'] . '/revslider/' . $blockAlias;
-
-        $zip = new ZipArchive();
-
-        if ($zip->open($tmp_file) === true) {
-            $zip->extractTo($sliderDirectory);
-            $zip->close();
-            unlink($tmp_file);
-
-            $this->addBlock($blockAlias);
-        } else {
-            throw new Exception('Error open file');
-        }
-    }
 
 
     /**

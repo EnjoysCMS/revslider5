@@ -6,8 +6,7 @@ namespace EnjoysCMS\Module\RevSlider5;
 
 use Enjoys\AssetsCollector\AssetOption;
 use Enjoys\AssetsCollector\Assets;
-use EnjoysCMS\Core\Components\Blocks\AbstractBlock;
-use EnjoysCMS\Core\Entities\Block as Entity;
+use EnjoysCMS\Core\Block\AbstractBlock;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -31,17 +30,10 @@ final class Block extends AbstractBlock
         private Environment $twig,
         private ServerRequestInterface $request,
         private Assets $assets,
-        Entity $block
     ) {
-        parent::__construct($block);
-        $this->templatePath = $this->getOption('template');
         $this->revsliderDirectory = $_ENV['REVSLIDER_DIR'] ?? $_ENV['PUBLIC_DIR'] . '/revslider';
     }
 
-    public static function getBlockDefinitionFile(): string
-    {
-        return '';
-    }
 
     /**
      * @throws LoaderError
@@ -50,7 +42,8 @@ final class Block extends AbstractBlock
      */
     public function view(): string
     {
-        $scriptsPath = glob($this->revsliderDirectory . '/' . $this->block->getAlias() . '/js/*.js');
+        $this->templatePath = $this->getBlockOptions()->getValue('template');
+        $scriptsPath = glob($this->revsliderDirectory . '/' . $this->getEntity()->getId() . '/js/*.js');
         $sliderAlias = null;
 
         foreach ($scriptsPath as $script) {
@@ -72,7 +65,7 @@ final class Block extends AbstractBlock
             [
                 'slider' => [
                     'alias' => $sliderAlias,
-                    'url' => '/revslider/' . $this->block->getAlias()
+                    'url' => '/revslider/' . $this->getEntity()->getId()
                 ]
 
             ]
@@ -81,7 +74,7 @@ final class Block extends AbstractBlock
 
     public function preRemove(): void
     {
-        $directory = $this->revsliderDirectory . '/' . $this->block->getAlias();
+        $directory = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
         if (is_dir($directory)) {
             removeDirectoryRecursive($directory, true);
         }
@@ -90,20 +83,20 @@ final class Block extends AbstractBlock
     /**
      * @throws Exception
      */
-    public function postClone(?Entity $cloned = null): void
+    public function postClone($cloned = null): void
     {
-        $directory_src = $this->revsliderDirectory . '/' . $this->block->getAlias();
-        $directory_dest = $this->revsliderDirectory . '/' . $cloned->getAlias();
+        $directory_src = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
+        $directory_dest = $this->revsliderDirectory . '/' . $cloned->getId();
         copyDirectoryWithFilesRecursive($directory_src, $directory_dest);
     }
 
     /**
      * @throws Exception
      */
-    public function postEdit(?Entity $oldBlock = null): void
+    public function postEdit($oldBlock = null): void
     {
-        $directory_from = $this->revsliderDirectory . '/' . $oldBlock->getAlias();
-        $directory_to = $this->revsliderDirectory . '/' . $this->block->getAlias();
+        $directory_from = $this->revsliderDirectory . '/' . $oldBlock->getId();
+        $directory_to = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
 
         if (file_exists($directory_from)) {
             rename($directory_from, $directory_to);

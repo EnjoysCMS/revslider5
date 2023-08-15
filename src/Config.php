@@ -4,32 +4,13 @@ declare(strict_types=1);
 
 namespace EnjoysCMS\Module\RevSlider5;
 
-use DI\DependencyException;
-use DI\FactoryInterface;
-use DI\NotFoundException;
-use EnjoysCMS\Core\Components\Modules\ModuleConfig;
+use EnjoysCMS\Core\Modules\AbstractModuleConfig;
 
-final class Config
+final class Config extends AbstractModuleConfig
 {
-    private ModuleConfig $config;
 
-    /**
-     * @throws DependencyException
-     * @throws NotFoundException
-     */
-    public function __construct(FactoryInterface $factory)
+    public function getModulePackageName(): string
     {
-        $this->config = $factory->make(ModuleConfig::class, ['moduleName' => 'enjoyscms/revslider5']);
-        $this->config->strict(false);
-    }
-
-    public function all(): ModuleConfig
-    {
-        return $this->config;
-    }
-
-    public function get(string $key, $default = null): mixed
-    {
-        return $this->config->get($key, $default);
+        return 'enjoyscms/revslider5';
     }
 }

@@ -19,7 +19,7 @@
   "extra": {
     "module-name": "RevSlider5",
     "admin-links": {
-      "revslider5/import": "Импорт слайдеров"
+      "@revslider5_import": "Импорт слайдеров"
     }
   },
   "require-dev": {
