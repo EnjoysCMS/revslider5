@@ -10,6 +10,7 @@ use EnjoysCMS\Core\Block\AbstractBlock;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use RuntimeException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -72,9 +73,13 @@ final class Block extends AbstractBlock
         );
     }
 
-    public function preRemove(): void
+    public function preRemove(\EnjoysCMS\Core\Block\Entity\Block $block): void
     {
-        $directory = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
+        $directory = sprintf(
+            "%s/%s",
+            $this->revsliderDirectory,
+            $this->getEntity()?->getId() ?? throw new RuntimeException()
+        );
         if (is_dir($directory)) {
             removeDirectoryRecursive($directory, true);
         }
@@ -82,21 +87,29 @@ final class Block extends AbstractBlock
 
     /**
      * @throws Exception
+     * @throws RuntimeException
      */
-    public function postClone($cloned = null): void
+    public function postClone(\EnjoysCMS\Core\Block\Entity\Block $newBlock): void
     {
-        $directory_src = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
-        $directory_dest = $this->revsliderDirectory . '/' . $cloned->getId();
-        copyDirectoryWithFilesRecursive($directory_src, $directory_dest);
+        copyDirectoryWithFilesRecursive(
+            sprintf("%s/%s", $this->revsliderDirectory, $this->getEntity()?->getId() ?? throw new RuntimeException()),
+            sprintf("%s/%s", $this->revsliderDirectory, $newBlock->getId())
+        );
     }
 
     /**
      * @throws Exception
      */
-    public function postEdit($oldBlock = null): void
-    {
-        $directory_from = $this->revsliderDirectory . '/' . $oldBlock->getId();
-        $directory_to = $this->revsliderDirectory . '/' . $this->getEntity()->getId();
+    public function postEdit(
+        \EnjoysCMS\Core\Block\Entity\Block $oldBlock,
+        \EnjoysCMS\Core\Block\Entity\Block $newBlock
+    ): void {
+        $directory_from = sprintf("%s/%s", $this->revsliderDirectory, $oldBlock->getId());
+        $directory_to = sprintf(
+            "%s/%s",
+            $this->revsliderDirectory,
+            $this->getEntity()?->getId() ?? throw new RuntimeException()
+        );
 
         if (file_exists($directory_from)) {
             rename($directory_from, $directory_to);
